@@ -33,9 +33,9 @@ class Book(models.Model):
 class Borrowing(models.Model):
     borrow_date = models.DateField(auto_now_add=True)
     expected_return_date = models.DateField()
-    actual_return_date = models.DateField(blank=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    actual_return_date = models.DateField(blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowing")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="borrowing")
 
     def __str__(self):
         return f"{self.book} borrowing {self.expected_return_date}"
@@ -64,9 +64,9 @@ class Payment(models.Model):
     )
     borrowing = models.ForeignKey(
         Borrowing, on_delete=models.CASCADE)
-    session_url = models.URLField(blank=True)
+    session_url = models.URLField(blank=True, null=True)
     session_id = models.CharField(
-        max_length=255, blank=True, unique=True)
+        max_length=255, blank=True, unique=True, null=True)
     money_to_pay = models.DecimalField(
         max_digits=7,
         decimal_places=2,
