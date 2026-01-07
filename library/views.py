@@ -1,6 +1,7 @@
 from django.utils import timezone
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
 from library.models import Book, Borrowing
@@ -35,6 +36,7 @@ class BorrowingViewSet(
 ):
 
     queryset = Borrowing.objects.all().select_related()
+    permission_classes = [IsAuthenticated, ]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
