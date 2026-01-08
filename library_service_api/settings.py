@@ -83,8 +83,12 @@ WSGI_APPLICATION = "library_service_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("POSTGRES_DB", "library"),
+        "USER": os.environ.get("POSTGRES_USER", "library"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "library"),
+        "HOST": os.environ.get("POSTGRES_HOST", "db"),
+        "PORT": os.environ.get("POSTGRES_PORT", 5432),
     }
 }
 
@@ -162,8 +166,8 @@ SIMPLE_JWT = {
 }
 
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_BROKER_URL = os.getenv("CONNECTION_URL", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("CONNECTION_URL", "redis://redis:6379/0")
 CELERY_TIMEZONE = "Europe/Kyiv"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BEAT_SCHEDULE = {
