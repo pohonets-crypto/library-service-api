@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "user",
     "library",
+    "drf_spectacular"
 ]
 
 MIDDLEWARE = [
@@ -151,6 +152,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day"},
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
 }
 
 SIMPLE_JWT = {
@@ -174,3 +176,17 @@ CELERY_BEAT_SCHEDULE = {
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 TELEGRAM_ADMIN_CHAT_IDS = [int(x) for x in os.getenv(
         "TELEGRAM_ADMIN_CHAT_IDS", "").split(",") if x]
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Library Service API",
+    "DESCRIPTION": "Managing borrowed books.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "defaultModelRendering": "model",
+        "defaultModelsExpandDepth": 2,
+        "defaultModelExpandDepth": 2,
+    },
+}
